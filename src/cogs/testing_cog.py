@@ -40,7 +40,7 @@ class Test(commands.Cog):
         await ctx.send(f"hi {a} {b}")
 
     @commands.command()
-    async def test3(self, ctx, a, b, c):
+    async def test3(self, ctx: commands.Context, a, b, c):
         await ctx.send("hallo")
         await ctx.send(f"hi {a} {b} {c}", delete_after=15.0)
         await ctx.send("hallo")
