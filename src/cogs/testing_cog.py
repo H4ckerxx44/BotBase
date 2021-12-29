@@ -184,6 +184,10 @@ class Test(commands.Cog):
     async def group_test_a(self, ctx: commands.Context):
         await ctx.send("I am a sub command of group `group_test`")
 
+    @group_test.command(name="b")
+    async def group_test_b(self, ctx: commands.Context, a):
+        await ctx.send(f"I am a sub command with a parameter {a}")
+
 
 def setup(client):
     client.add_cog(Test(client))
