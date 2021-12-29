@@ -72,14 +72,6 @@ class ExceptionHandler(commands.Cog):
                 timestamp=datetime.datetime.now(),
             )
 
-        elif isinstance(err, commands.BadArgument):
-            emb = nextcord.Embed(
-                title="Bad argument!",
-                description=f"You provided a wrong parameter type. ({err.args})",
-                color=self.error_color,
-                timestamp=datetime.datetime.now(),
-            )
-
         elif isinstance(err, commands.GuildNotFound):
             emb = nextcord.Embed(
                 title="Guild not found!",
@@ -266,6 +258,16 @@ class ExceptionHandler(commands.Cog):
             emb = nextcord.Embed(
                 title="Extension misses the setup function!",
                 description="",
+                color=self.error_color,
+                timestamp=datetime.datetime.now(),
+            )
+
+        elif isinstance(err, commands.BadArgument):
+            # TODO: Fix
+            #  You provided a wrong parameter type. (('Converting to "int" failed for parameter "a".',))
+            emb = nextcord.Embed(
+                title="Bad argument!",
+                description=f"You provided a wrong parameter type. ({err.args})",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
