@@ -24,6 +24,12 @@ class ExceptionHandler(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_command_error(self, ctx: commands.Context, error):
+		# TODO: Think about wording
+
+		# TODO: create commands to test every error type
+
+		# TODO: remove empty description where applicable
+
 		# handle exceptions
 		err = error
 		if isinstance(err, commands.CommandInvokeError):
