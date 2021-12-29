@@ -257,14 +257,6 @@ class ExceptionHandler(commands.Cog):
 				timestamp=datetime.datetime.now()
 			)
 
-		elif isinstance(err, commands.ExtensionFailed):
-			emb = nextcord.Embed(
-				title="Extension failed!",
-				description="",
-				color=self.error_color,
-				timestamp=datetime.datetime.now()
-			)
-
 		elif isinstance(err, commands.NoEntryPointError):
 			emb = nextcord.Embed(
 				title="Extension misses the setup function!",
