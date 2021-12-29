@@ -9,20 +9,20 @@ class Test(commands.Cog):
         self.client: CustomBot = client
         self.error_color = nextcord.Color.red()
 
-    @commands.command(aliases=["l"], hidden=True)
     @commands.is_owner()
+    @commands.command(aliases=["l"], hidden=True)
     async def load(self, ctx: commands.Context, *extensions) -> None:
         # TODO: add functionality with internals in mind
         return
 
-    @commands.command(aliases=["ul"], hidden=True)
     @commands.is_owner()
+    @commands.command(aliases=["ul"], hidden=True)
     async def unload(self, ctx: commands.Context, *extensions) -> None:
         # TODO: add functionality with internals in mind
         return
 
-    @commands.command(aliases=["rl"], hidden=True)
     @commands.is_owner()
+    @commands.command(aliases=["rl"], hidden=True)
     async def reload(self, ctx: commands.Context, *extensions) -> None:
         # TODO: add functionality with internals in mind
         return
