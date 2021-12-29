@@ -27,6 +27,7 @@ class Test(commands.Cog):
         # TODO: add functionality with internals in mind
         return
 
+    # Commands
     @commands.command()
     async def test0(self, ctx: commands.Context):
         await ctx.send("hi")
