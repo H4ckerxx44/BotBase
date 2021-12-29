@@ -52,6 +52,58 @@ class Test(commands.Cog):
     async def channel_id(self, ctx: commands.Context, channel: nextcord.TextChannel):
         await ctx.send(str(channel.id))
 
+    @commands.command(enabled=False)
+    async def disabled_command(self, ctx: commands.Context):
+        await ctx.send("Disabled command.")
+
+    @commands.cooldown(1, 5)
+    @commands.command()
+    async def command_on_cooldown(self, ctx: commands.Context):
+        await ctx.send("Command on cooldown.")
+
+    @commands.command()
+    async def extension_already_loaded(self, ctx: commands.Context):
+        self.client.load_extension("jishaku")
+
+    @commands.command()
+    async def extension_not_loaded(self, ctx: commands.Context):
+        self.client.unload_extension("jishaku")
+        self.client.unload_extension("jishaku")
+
+    @commands.command()
+    async def extension_failed(self, ctx: commands.Context):
+        self.client.load_extension("failing_extension")
+
+
+    @commands.command()
+    async def extension_not_found(self, ctx: commands.Context):
+        self.client.load_extension("cogs.not_to_be_found")
+
+    @commands.command()
+    async def no_entry_point_error(self, ctx: commands.Context):
+        self.client.load_extension("no_entry_point_extension")
+
+    @commands.command()
+    async def channel(self, ctx: commands.Context, channel: nextcord.TextChannel):
+        await ctx.send(str(channel))
+
+    @commands.command()
+    async def member(self, ctx: commands.Context, member: nextcord.Member):
+        await ctx.send(str(member))
+
+    @commands.command()
+    async def guild(self, ctx: commands.Context, guild: nextcord.Guild):
+        await ctx.send(str(guild))
+
+    @commands.command()
+    async def message(self, ctx: commands.Context, message: nextcord.Message):
+        await ctx.send(str(message))
+
+    @commands.command()
+    async def role(self, ctx: commands.Context, role: nextcord.Role):
+        await ctx.send(str(role))
+
+    # Groups
     @commands.group()
     async def group_test(self, ctx: commands.Context):
         if not ctx.invoked_subcommand:
