@@ -45,12 +45,82 @@ class Test(commands.Cog):
 
     @commands.is_owner()
     @commands.command()
-    async def yeet(self, ctx: commands.Context):
-        await ctx.send(str(self.client.uptime()))
+    async def not_owner(self, ctx: commands.Context):
+        await ctx.send("If you see this you are the bot owner.")
 
     @commands.command()
-    async def channel_id(self, ctx: commands.Context, channel: nextcord.TextChannel):
-        await ctx.send(str(channel.id))
+    async def member_not_found(self, ctx: commands.Context, member: nextcord.Member):
+        await ctx.send(str(member))
+
+    @commands.has_role(731275569471422485)
+    @commands.command()
+    async def missing_role(self, ctx: commands.Context):
+        await ctx.send("")
+
+    @commands.command()
+    async def bad_argument(self, ctx: commands.Context, a: int):
+        await ctx.send(str(a))
+
+    @commands.command()
+    async def guild_not_found(self, ctx: commands.Context, guild: nextcord.Guild):
+        await ctx.send(str(guild))
+
+    @commands.command()
+    async def too_many_arguments(self, ctx: commands.Context, a, b):
+        await ctx.send(f"{a=}, {b=}")
+
+    @commands.command()
+    async def role_not_found(self, ctx: commands.Context, role: nextcord.Role):
+        await ctx.send(str(role))
+
+    @commands.command()
+    async def message_not_found(self, ctx: commands.Context, message: nextcord.Message):
+        await ctx.send(str(message))
+
+    @commands.command()
+    async def channel_not_found(self, ctx: commands.Context, channel):
+        await ctx.send(str(channel))
+
+    @commands.command()
+    async def string_errors(self, ctx: commands.Context, *, text: str):
+        await ctx.send(text)
+
+    @commands.dm_only()
+    @commands.command()
+    async def private_message_only(self, ctx: commands.Context):
+        await ctx.send("DM Only")
+
+    @commands.guild_only()
+    @commands.command()
+    async def no_private_message(self, ctx: commands.Context):
+        await ctx.send("Guild only")
+
+    @commands.has_permissions(administrator=True)
+    @commands.command()
+    async def missing_permissions(self, ctx: commands.Context):
+        await ctx.send("Admin only")
+
+    @commands.bot_has_permissions(administrator=True)
+    @commands.command()
+    async def xbot_missing_permissions(self, ctx: commands.Context):
+        await ctx.send("Bot admin only.")
+
+    @commands.command()
+    async def missing_any_role(self, ctx: commands.Context):
+        await ctx.send("Missing any role.")
+
+    @commands.command()
+    async def xbot_missing_any_role(self, ctx: commands.Context):
+        await ctx.send("Bot missing any role.")
+
+    @commands.command()
+    async def xbot_missing_role(self, ctx: commands.Context):
+        await ctx.send("Bot missing role.")
+
+    @commands.is_nsfw()
+    @commands.command()
+    async def nsfw_only(self, ctx: commands.Context):
+        await ctx.send("NSFW only.")
 
     @commands.command(enabled=False)
     async def disabled_command(self, ctx: commands.Context):
