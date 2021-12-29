@@ -108,7 +108,6 @@ class CustomBot(commands.Bot):
         self.load_exception_handler()
         self.load_cogs()
         self.load_tasks()
-        self.load_extension("jishaku")
         self.loop.create_task(self.register_aiohttp_session())
         super().run(self.token)
 
