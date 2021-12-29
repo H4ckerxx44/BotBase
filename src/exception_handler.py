@@ -201,7 +201,7 @@ class ExceptionHandler(commands.Cog):
         elif isinstance(err, commands.NSFWChannelRequired):
             emb = nextcord.Embed(
                 title="NSFW channel required!",
-                description=f"This command requires the channel ({err.channel}) to be marked as `NSFW`.",
+                description=f"This command requires {err.channel.mention} to be `NSFW`.",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
@@ -209,7 +209,7 @@ class ExceptionHandler(commands.Cog):
         elif isinstance(err, commands.DisabledCommand):
             emb = nextcord.Embed(
                 title="Command disabled!",
-                description=f"This command is currently disabled and therefor not usable.",
+                description="This command is currently disabled and therefor not usable.",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
