@@ -223,6 +223,7 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.ExtensionAlreadyLoaded):
+            # TODO: Add extension name
             emb = nextcord.Embed(
                 title="Extension already loaded!",
                 description="",
@@ -231,6 +232,7 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.ExtensionNotLoaded):
+            # TODO: Add extension name
             emb = nextcord.Embed(
                 title="Extension not loaded!",
                 description="The extension is not loaded.",
@@ -239,6 +241,7 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.ExtensionFailed):
+            # TODO: Add extension name
             emb = nextcord.Embed(
                 title="Extension failed!",
                 description="",
@@ -247,6 +250,7 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.ExtensionNotFound):
+            # TODO: Add extension name
             emb = nextcord.Embed(
                 title="Extension not found!",
                 description="",
@@ -255,6 +259,7 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.NoEntryPointError):
+            # TODO: Add extension name
             emb = nextcord.Embed(
                 title="Extension misses the setup function!",
                 description="",
