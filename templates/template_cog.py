@@ -22,8 +22,8 @@ class TemplateCog(commands.Cog):
 		emb.add_field(name="Template field 2", value="Template value 2", inline=False)
 		emb.add_field(name="Template field 3", value="Template value 3", inline=False)
 		emb.add_field(name="Template field 4", value="Template value 4", inline=True)
-		emb.add_field(name="Template field 5", value="Template value 4", inline=True)
-		emb.add_field(name="Template field 6", value="Template value 4", inline=True)
+		emb.add_field(name="Template field 5", value="Template value 5", inline=True)
+		emb.add_field(name="Template field 6", value="Template value 6", inline=True)
 		emb.set_footer(text="Template footer", icon_url=ctx.guild.icon.with_size(4096).url)
 		return await ctx.send(embed=emb)
 
