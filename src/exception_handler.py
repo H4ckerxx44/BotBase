@@ -38,7 +38,6 @@ class ExceptionHandler(commands.Cog):
         if isinstance(err, commands.CommandNotFound):
             return
 
-
         if isinstance(err, commands.MissingRequiredArgument):
             emb = nextcord.Embed(
                 title="Missing parameter!",

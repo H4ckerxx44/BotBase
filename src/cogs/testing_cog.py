@@ -145,7 +145,6 @@ class Test(commands.Cog):
     async def extension_failed(self, ctx: commands.Context):
         self.client.load_extension("failing_extension")
 
-
     @commands.command()
     async def extension_not_found(self, ctx: commands.Context):
         self.client.load_extension("cogs.not_to_be_found")
