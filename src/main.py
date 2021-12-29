@@ -157,7 +157,9 @@ class CustomHelpCommand(commands.HelpCommand):
 
         times_used = times_failed + times_worked
 
-        syntax = f"{self.context.clean_prefix}{command.qualified_name} {command.signature}"
+        syntax = (
+            f"{self.context.clean_prefix}{command.qualified_name} {command.signature}"
+        )
         emb = nextcord.Embed(title="Command help", color=client.main_color)
         emb.add_field(name=str(syntax), value=f"`{command.help}`", inline=False)
         emb.add_field(
