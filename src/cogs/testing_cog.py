@@ -41,9 +41,7 @@ class Test(commands.Cog):
 
     @commands.command()
     async def test3(self, ctx: commands.Context, a, b, c):
-        await ctx.send("hallo")
         await ctx.send(f"hi {a} {b} {c}", delete_after=15.0)
-        await ctx.send("hallo")
 
     @commands.is_owner()
     @commands.command()
