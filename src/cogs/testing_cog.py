@@ -33,15 +33,15 @@ class Test(commands.Cog):
 
     @commands.command()
     async def test1(self, ctx: commands.Context, a):
-        await ctx.send(f"hi {a}")
+        await ctx.send(f"{a=}")
 
     @commands.command()
     async def test2(self, ctx: commands.Context, a, b):
-        await ctx.send(f"hi {a} {b}")
+        await ctx.send(f"{a=} {b=}")
 
     @commands.command()
     async def test3(self, ctx: commands.Context, a, b, c):
-        await ctx.send(f"hi {a} {b} {c}", delete_after=15.0)
+        await ctx.send(f"{a=} {b=} {c=}")
 
     @commands.is_owner()
     @commands.command()
