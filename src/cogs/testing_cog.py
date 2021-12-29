@@ -179,9 +179,9 @@ class Test(commands.Cog):
         if not ctx.invoked_subcommand:
             await ctx.send("I am a group!")
 
-	@group_test.command(name="a")
-	async def group_test_a(self, ctx: commands.Context):
-		await ctx.send("I am a sub command of group `group_test`")
+    @group_test.command(name="a")
+    async def group_test_a(self, ctx: commands.Context):
+        await ctx.send("I am a sub command of group `group_test`")
 
     @group_test.command(name="b")
     async def group_test_b(self, ctx: commands.Context, a):
@@ -189,4 +189,4 @@ class Test(commands.Cog):
 
 
 def setup(client):
-	client.add_cog(Test(client))
+    client.add_cog(Test(client))
