@@ -216,45 +216,40 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.ExtensionAlreadyLoaded):
-            # TODO: Add extension name
             emb = nextcord.Embed(
                 title="Extension already loaded!",
-                description="",
+                description=f"{err.name} is already loaded.",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
 
         elif isinstance(err, commands.ExtensionNotLoaded):
-            # TODO: Add extension name
             emb = nextcord.Embed(
                 title="Extension not loaded!",
-                description="The extension is not loaded.",
+                description=f"{err.name} is not loaded.",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
 
         elif isinstance(err, commands.ExtensionFailed):
-            # TODO: Add extension name
             emb = nextcord.Embed(
-                title="Extension failed!",
+                title=f"{err.name} failed!",
                 description="",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
 
         elif isinstance(err, commands.ExtensionNotFound):
-            # TODO: Add extension name
             emb = nextcord.Embed(
-                title="Extension not found!",
+                title=f"{err.name} could not be found!",
                 description="",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
 
         elif isinstance(err, commands.NoEntryPointError):
-            # TODO: Add extension name
             emb = nextcord.Embed(
-                title="Extension misses the setup function!",
+                title=f"{err.name} misses the setup function!",
                 description="",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
