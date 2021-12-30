@@ -1,3 +1,7 @@
+"""
+This is a template module for easy copy pasting
+"""
+
 import nextcord
 from nextcord.ext import commands
 
@@ -5,15 +9,28 @@ from main import CustomBot
 
 
 class TemplateCog(commands.Cog):
+    """
+    This is a template cog
+    """
     def __init__(self, client: CustomBot):
         self.client: CustomBot = client
 
     @commands.command()
     async def template_command(self, ctx: commands.Context) -> nextcord.Message:
+        """
+        Template command with text response
+        :param ctx: The context
+        :return: The message that got sent
+        """
         return await ctx.send("Template Message")
 
     @commands.command()
     async def template_embed(self, ctx: commands.Context) -> nextcord.Message:
+        """
+        Template command with embed respone
+        :param ctx: The context
+        :return: The message that got sent
+        """
         emb = nextcord.Embed(
             title="Template title",
             description="Template description",
@@ -40,4 +57,9 @@ class TemplateCog(commands.Cog):
 
 
 def setup(client):
+    """
+    Setup function to add the cog to the client
+    :param client: the client
+    :return: None
+    """
     client.add_cog(TemplateCog(client))
