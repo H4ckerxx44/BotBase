@@ -159,7 +159,12 @@ class CustomHelpCommand(commands.HelpCommand):
         syntax = (
             f"{self.context.clean_prefix}{command.qualified_name} {command.signature}"
         )
-        emb = nextcord.Embed(title="Command help", color=client.main_color)
+        emb = nextcord.Embed(
+            title="Command help",
+            description="If a parameter is surrounded by <>, it is a `required` parameter\n"
+            "If a parameter is surrounded by [], it is an `optional` parameter.",
+            color=client.main_color,
+        )
         emb.add_field(name=str(syntax), value=f"`{command.help}`", inline=False)
         emb.add_field(
             name="Command stats",
@@ -189,8 +194,6 @@ class CustomHelpCommand(commands.HelpCommand):
     async def send_cog_help(self, cog: commands.Cog):
         emb = nextcord.Embed(
             title="**Full command list.** For a detailed guide, check !!help <name of command>",
-            description="If a parameter is surrounded by <>, it is a required parameter\n"
-            "If a parameter is surrounded by [], it is an optional parameter.",
             color=client.main_color,
         )
 
