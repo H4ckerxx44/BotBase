@@ -28,7 +28,7 @@ class TemplateCog(commands.Cog):
     @commands.command()
     async def template_embed(self, ctx: commands.Context) -> nextcord.Message:
         """
-        Template command with embed respone
+        Template command with embed response
         :param ctx: The context
         :return: The message that got sent
         """
