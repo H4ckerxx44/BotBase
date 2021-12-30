@@ -45,7 +45,7 @@ class ExceptionHandler(commands.Cog):
         elif isinstance(err, commands.NotOwner):
             emb = nextcord.Embed(
                 title="Not Owner!",
-                description=f"Only the bot-owner can execute self command.",
+                description="Only the bot-owner can execute self command.",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
