@@ -256,11 +256,10 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.BadArgument):
-            # TODO: Fix
-            #  You provided a wrong parameter type. (('Converting to "int" failed for parameter "a".',))
+            failed = str(err.args[0]).replace("\"", "`")
             emb = nextcord.Embed(
                 title="Bad argument!",
-                description=f"You provided a wrong parameter type. ({err.args})",
+                description=f"You provided a wrong parameter type. ({failed})",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
