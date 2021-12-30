@@ -37,8 +37,22 @@ class Test(commands.Cog):
     @commands.is_owner()
     @commands.command(aliases=["ul"], hidden=True)
     async def unload(self, ctx: commands.Context, *extensions) -> None:
-        # TODO: add functionality with internals in mind
-        return
+        success = []
+
+        for ext in extensions:
+            try:
+                self.client.unload_extension(f"cogs.{ext}")
+                self.client.loaded_modules.remove(ext)
+                self.client.unloaded_modules.add(ext)
+                success.append(f"{ext}")
+            except commands.ExtensionNotLoaded:
+                raise
+
+            except commands.ExtensionError:
+                raise
+
+        unloaded_exts = ", ".join(f"`{x}`" for x in success)
+        await ctx.send(f"unloaded {unloaded_exts} successfully")
 
     @commands.is_owner()
     @commands.command(aliases=["rl"], hidden=True)
