@@ -12,6 +12,7 @@ class TemplateCog(commands.Cog):
     """
     This is a template cog
     """
+
     def __init__(self, client: CustomBot):
         self.client: CustomBot = client
 
