@@ -57,8 +57,22 @@ class Test(commands.Cog):
     @commands.is_owner()
     @commands.command(aliases=["rl"], hidden=True)
     async def reload(self, ctx: commands.Context, *extensions) -> None:
-        # TODO: add functionality with internals in mind
-        return
+        success = []
+
+        for ext in extensions:
+            try:
+                try:
+                    self.client.errored_modules.remove(ext)
+                except KeyError:
+                    continue
+                self.client.reload_extension(f"cogs.{ext}")
+                success.append(f"{ext}")
+            except (commands.ExtensionFailed, commands.NoEntryPointError):
+                self.client.errored_modules.add(ext)
+                raise
+
+        reloaded_exts = ", ".join(f"`{x}`" for x in success)
+        await ctx.send(f"reloaded {reloaded_exts} successfully")
 
     # Commands
     @commands.command()
