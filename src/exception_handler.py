@@ -37,7 +37,7 @@ class ExceptionHandler(commands.Cog):
             emb = nextcord.Embed(
                 title="Missing parameter!",
                 description=f"You are missing `{err.param.name}`.\n"
-                            f"Usage: `{usage}`",
+                f"Usage: `{usage}`",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
