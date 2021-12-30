@@ -256,7 +256,7 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.BadArgument):
-            failed = str(err.args[0]).replace("\"", "`")
+            failed = str(err.args[0]).replace('"', "`")
             emb = nextcord.Embed(
                 title="Bad argument!",
                 description=f"You provided a wrong parameter type. ({failed})",
