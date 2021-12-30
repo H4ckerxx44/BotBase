@@ -33,9 +33,11 @@ class ExceptionHandler(commands.Cog):
             return
 
         if isinstance(err, commands.MissingRequiredArgument):
+            usage = f"`{ctx.clean_prefix}{ctx.command.qualified_name} {ctx.command.signature}`"
             emb = nextcord.Embed(
                 title="Missing parameter!",
-                description=f"You are missing `{err.param.name}`.\nUsage: `{ctx.clean_prefix}{ctx.command.qualified_name} {ctx.command.signature}`",
+                description=f"You are missing `{err.param.name}`.\n"
+                            f"Usage: `{usage}`",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
