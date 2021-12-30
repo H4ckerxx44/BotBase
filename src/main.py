@@ -82,9 +82,9 @@ class CustomBot(commands.Bot):
             ext = f"{dirr}.{file}"
             try:
                 self.load_extension(ext)
-                self.loaded_modules.add(ext)
+                self.loaded_modules.add(file)
             except nextcord.ext.commands.ExtensionError:
-                self.errored_modules.add(ext)
+                self.errored_modules.add(file)
                 raise
 
     def load_cogs(self) -> None:
