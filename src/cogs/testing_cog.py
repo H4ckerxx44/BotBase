@@ -12,8 +12,27 @@ class Test(commands.Cog):
     @commands.is_owner()
     @commands.command(aliases=["l"], hidden=True)
     async def load(self, ctx: commands.Context, *extensions) -> None:
-        # TODO: add functionality with internals in mind
-        return
+        success = []
+
+        for ext in extensions:
+            try:
+                self.client.load_extension(f"cogs.{ext}")
+                self.client.unloaded_modules.remove(ext)
+                self.client.loaded_modules.add(ext)
+                success.append(f"{ext}")
+            except commands.ExtensionAlreadyLoaded:
+                try:
+                    self.client.unloaded_modules.remove(ext)
+                    self.client.errored_modules.remove(ext)
+                except KeyError:
+                    pass
+                raise
+            except (commands.ExtensionFailed, commands.NoEntryPointError):
+                self.client.errored_modules.add(ext)
+                raise
+
+        loaded_exts = ", ".join(f"`{x}`" for x in success)
+        await ctx.send(f"loaded {loaded_exts} successfully")
 
     @commands.is_owner()
     @commands.command(aliases=["ul"], hidden=True)
