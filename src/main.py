@@ -1,3 +1,7 @@
+"""
+Main module
+"""
+
 import collections.abc
 import datetime
 import logging
@@ -20,6 +24,10 @@ logging.basicConfig(level=logging.INFO)
 
 
 class CustomBot(commands.Bot):
+    """
+    Subclassed Bot to implement own features tightly
+    """
+
     def __init__(self):
         self.aiohttp_session: Optional[aiohttp.ClientSession] = None
         self.token = os.getenv("BOT_TOKEN")
@@ -45,13 +53,25 @@ class CustomBot(commands.Bot):
         )
 
     def log_event(self, event_name: str, event_type: str) -> None:
+        """
+        Log event
+        :param event_name: The events name
+        :param event_type: The events type
+        :return: None
+        """
         sql = "INSERT INTO bot_db.events(event_name, event_type) VALUES(%s, %s)"
         val = (event_name, event_type)
         self.cursor.execute(sql, val)
         self.database.commit()
         logging.info("logged %s as %s", event_name, event_type)
 
-    def log_command_stats(self, command_name: str, command_state: str):
+    def log_command_stats(self, command_name: str, command_state: str) -> None:
+        """
+        Log command stats
+        :param command_name: The commands name
+        :param command_state: The state of the command
+        :return: None
+        """
         sql = "INSERT INTO bot_db.command_stats(command_name, command_state) VALUES(%s, %s)"
         val = (command_name, command_state)
         self.cursor.execute(sql, val)
@@ -59,11 +79,19 @@ class CustomBot(commands.Bot):
         logging.info("logged %s (%s)", command_name, command_state)
 
     def uptime(self) -> datetime.timedelta:
+        """
+        Get the bots uptime
+        :return: timedelta object of the current uptime
+        """
         difference = int(time.time() - self.start_time)
         uptime = datetime.timedelta(seconds=difference)
         return uptime
 
-    def load_db(self):
+    def load_db(self) -> None:
+        """
+        Load the database connection
+        :return: None
+        """
         try:
             self.database: MySQLConnection = mysql.connector.connect(
                 host=str(os.getenv("DB_HOST")),
@@ -76,7 +104,12 @@ class CustomBot(commands.Bot):
         except mysql.connector.errors.DatabaseError:
             raise SystemError("You forgot to start XAMPP")
 
-    def load_dir(self, dirr):
+    def load_dir(self, dirr) -> None:
+        """
+        Search a directory for cogs and load them
+        :param dirr: The directory to search
+        :return: None
+        """
         files = [file[:-3] for file in os.listdir(dirr) if not file.startswith("__")]
         for file in files:
             ext = f"{dirr}.{file}"
@@ -88,21 +121,41 @@ class CustomBot(commands.Bot):
                 raise
 
     def load_cogs(self) -> None:
+        """
+        Load cogs
+        :return: None
+        """
         self.load_dir("cogs")
         self.load_extension("jishaku")
         logging.info("loading extensions finished")
 
-    def load_tasks(self):
+    def load_tasks(self) -> None:
+        """
+        Load tasks
+        :return: None
+        """
         self.load_dir("tasks")
         logging.info("loading tasks finished")
 
-    def load_debug_cog(self):
+    def load_debug_cog(self) -> None:
+        """
+        Load the debug cog
+        :return: None
+        """
         self.load_extension("debug_cog.py")
 
-    def load_exception_handler(self):
+    def load_exception_handler(self) -> None:
+        """
+        Load the exception handler
+        :return: None
+        """
         self.load_extension("exception_handler")
 
     def run_bot(self) -> None:
+        """
+        Run the bot
+        :return: None
+        """
         logging.info("starting up...")
         self.load_db()
         self.load_exception_handler()
@@ -112,24 +165,48 @@ class CustomBot(commands.Bot):
         super().run(self.token)
 
     async def on_ready(self) -> None:
+        """
+        on_ready event
+        :return: None
+        """
         logging.info("ready")
         logging.info("logged in as %s / %s", self.user, self.user.id)
         self.log_event("on_ready", "event")
 
     async def on_connect(self) -> None:
+        """
+        on_connect event
+        :return: None
+        """
         self.log_event("on_connect", "event")
 
     async def on_disconnect(self) -> None:
+        """
+        on_disconnect event
+        :return: None
+        """
         self.log_event("on_disconnect", "event")
 
     async def register_aiohttp_session(self) -> None:
+        """
+        Register the bots ClientSession
+        :return: None
+        """
         self.aiohttp_session = aiohttp.ClientSession()
 
 
 class CustomHelpCommand(commands.HelpCommand):
-    # !help
+    """
+    Custom help command
+    """
 
-    async def send_bot_help(self, mapping: collections.abc.Mapping):
+    # !help
+    async def send_bot_help(self, mapping: collections.abc.Mapping) -> nextcord.Message:
+        """
+        Bot help
+        :param mapping: Stuff
+        :return: The message that got sent
+        """
         emb = nextcord.Embed(title="Help")
         for cog, cmds in mapping.items():
             filtered = await self.filter_commands(cmds, sort=True)
@@ -140,10 +217,15 @@ class CustomHelpCommand(commands.HelpCommand):
                     name=cog_name, value="\n".join(command_signatures), inline=False
                 )
 
-        await self.context.send(embed=emb)
+        return await self.context.send(embed=emb)
 
     # !help <command>
-    async def send_command_help(self, command: commands.Command):
+    async def send_command_help(self, command: commands.Command) -> nextcord.Message:
+        """
+        Command help
+        :param command: The command given
+        :return: The message that got sent
+        """
         sql = "SELECT COUNT(command_name) FROM bot_db.command_stats WHERE command_name=%s AND command_state=%s"
 
         val = (command.name, "SUCCESS")
@@ -174,10 +256,15 @@ class CustomHelpCommand(commands.HelpCommand):
             inline=False,
         )
 
-        await self.context.send(embed=emb)
+        return await self.context.send(embed=emb)
 
     # !help <group>
-    async def send_group_help(self, group: commands.Group):
+    async def send_group_help(self, group: commands.Group) -> nextcord.Message:
+        """
+        Group help
+        :param group: The group given
+        :return: The message that got sent
+        """
         emb = nextcord.Embed(title="Command group help", color=client.main_color)
 
         for sub_command in group.walk_commands():
@@ -188,10 +275,15 @@ class CustomHelpCommand(commands.HelpCommand):
                 inline=False,
             )
 
-        await self.context.send(embed=emb)
+        return await self.context.send(embed=emb)
 
     # !help <cog>
-    async def send_cog_help(self, cog: commands.Cog):
+    async def send_cog_help(self, cog: commands.Cog) -> nextcord.Message:
+        """
+        Cog help
+        :param cog: The cog given
+        :return: The message that got sent
+        """
         emb = nextcord.Embed(
             title="**Full command list.** For a detailed guide, check !!help <name of command>",
             color=client.main_color,
@@ -207,7 +299,7 @@ class CustomHelpCommand(commands.HelpCommand):
                 inline=False,
             )
 
-        await self.context.send(embed=emb)
+        return await self.context.send(embed=emb)
 
 
 if __name__ == "__main__":

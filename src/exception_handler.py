@@ -1,5 +1,10 @@
+"""
+This is my exception handler
+"""
+
 import datetime
 import traceback
+from typing import Union
 
 import nextcord
 from nextcord.ext import commands
@@ -9,22 +14,44 @@ from main import CustomBot
 
 # noinspection PyPep8Naming
 class ExceptionHandler(commands.Cog):
+    """
+    This is the exception handler cog
+    """
+
     def __init__(self, client: CustomBot):
         self.client: CustomBot = client
         self.error_color = nextcord.Color.red()
 
     @commands.Cog.listener()
-    async def on_command(self, ctx: commands.Context):
+    async def on_command(self, ctx: commands.Context) -> None:
+        """
+        Fires when a command gets executed
+        :param ctx: The context
+        :return: None
+        """
         self.client.log_event("on_command", "event")
 
     @commands.Cog.listener()
-    async def on_command_completion(self, ctx: commands.Context):
+    async def on_command_completion(self, ctx: commands.Context) -> None:
+        """
+        Fires when a command was executed
+        :param ctx: The context
+        :return: None
+        """
         self.client.log_command_stats(str(ctx.command.qualified_name), "SUCCESS")
         self.client.log_event("on_command_completion", "event")
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx: commands.Context, error):
-        # handle exceptions
+    async def on_command_error(
+        self, ctx: commands.Context, error
+    ) -> Union[nextcord.Message, None]:
+        """
+        This fires whenever a command throws an exception
+        :param ctx: The context
+        :param error: The error
+        :return: The message that got sent
+        """
+
         err = error
         if isinstance(err, commands.CommandInvokeError):
             err = error.original
@@ -119,7 +146,8 @@ class ExceptionHandler(commands.Cog):
         elif isinstance(err, commands.InvalidEndOfQuotedStringError):
             emb = nextcord.Embed(
                 title="Invalid end of quoted string!",
-                description="The quoted string you have provided is invalid. Perhaps you got \" and/or ' mixed up?",
+                description="The quoted string you have provided is invalid. "
+                "Perhaps you got \" and/or ' mixed up?",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
@@ -127,7 +155,8 @@ class ExceptionHandler(commands.Cog):
         elif isinstance(err, commands.ExpectedClosingQuoteError):
             emb = nextcord.Embed(
                 title="Expected closing quote!",
-                description="The quoted string you have provided is invalid. Perhaps you forgot to end the string with \" or '",
+                description="The quoted string you have provided is invalid. "
+                "Perhaps you forgot to end the string with \" or '",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
@@ -151,7 +180,8 @@ class ExceptionHandler(commands.Cog):
         elif isinstance(err, commands.MissingPermissions):
             emb = nextcord.Embed(
                 title="Missing permissions!",
-                description=f"You are missing {', '.join(f'`{e}`' for e in err.missing_permissions)}",
+                description=f"You are missing "
+                f"{', '.join(f'`{e}`' for e in err.missing_permissions)}",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
@@ -159,13 +189,14 @@ class ExceptionHandler(commands.Cog):
         elif isinstance(err, commands.BotMissingPermissions):
             emb = nextcord.Embed(
                 title="Bot missing permissions!",
-                description=f"The bot is missing {', '.join(f'`{e}`' for e in err.missing_permissions)}",
+                description=f"The bot is missing "
+                f"{', '.join(f'`{e}`' for e in err.missing_permissions)}",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
 
         elif isinstance(err, commands.MissingAnyRole):
-            roles = ", ".join([x for x in err.missing_roles])
+            roles = ", ".join(x for x in err.missing_roles)
             emb = nextcord.Embed(
                 title="Missing any role!",
                 description=f"You are missing one of the following roles ({roles})",
@@ -174,9 +205,10 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.BotMissingAnyRole):
-            missing_roles = "{}, or {}".format(
-                ", ".join(err.missing_roles[:-1]), err.missing_roles[-1]
+            missing_roles = (
+                f"{', '.join(err.missing_roles[:-1])}, or {err.missing_roles[-1]}"
             )
+
             emb = nextcord.Embed(
                 title="Bot missing role!",
                 description=f"The bot is missing {missing_roles}",
@@ -275,13 +307,17 @@ class ExceptionHandler(commands.Cog):
             dennis = self.client.get_user(self.client.owner_id)
             await dennis.send(embed=self.gen_dennis_embed(err))
 
-            await ctx.send(embed=emb)
-
             self.client.log_event("on_command_error", "event")
             self.client.log_command_stats(str(ctx.command.qualified_name), "ERROR")
-        await ctx.send(embed=emb)
 
-    def gen_default_embed(self, exception):
+        return await ctx.send(embed=emb)
+
+    def gen_default_embed(self, exception) -> nextcord.Embed:
+        """
+        Generates the default error embed
+        :param exception: The unhandled exception
+        :return: The embed to get sent into the chat
+        """
         else_error = nextcord.Embed(
             title="Unhandled exception occurred!",
             description=str(exception.__class__.__name__),
@@ -292,6 +328,11 @@ class ExceptionHandler(commands.Cog):
         return else_error
 
     def gen_dennis_embed(self, exception) -> nextcord.Embed:
+        """
+        Generates the embed to sent to me
+        :param exception: The unhandled exception
+        :return: The embed to be sent to me
+        """
         exc = "".join(
             traceback.format_exception(
                 etype=type(exception), value=exception, tb=exception.__traceback__
@@ -306,5 +347,10 @@ class ExceptionHandler(commands.Cog):
         return dennis_error_embed
 
 
-def setup(client):
+def setup(client) -> None:
+    """
+    Setup function to add the cog to the client
+    :param client: the client
+    :return: None
+    """
     client.add_cog(ExceptionHandler(client))
