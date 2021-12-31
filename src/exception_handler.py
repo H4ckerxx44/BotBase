@@ -89,7 +89,7 @@ class ExceptionHandler(commands.Cog):
             role = ctx.guild.get_role(err.missing_role)
             emb = nextcord.Embed(
                 title="Missing role!",
-                description=f"You are missing {role.mention} to use self command.",
+                description=f"You are missing {role.mention} to use this command.",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
