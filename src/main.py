@@ -151,6 +151,13 @@ class CustomBot(commands.Bot):
         """
         self.load_extension("exception_handler")
 
+    async def register_aiohttp_session(self) -> None:
+        """
+        Register the bots ClientSession
+        :return: None
+        """
+        self.aiohttp_session = aiohttp.ClientSession()
+
     def run_bot(self) -> None:
         """
         Run the bot
@@ -164,6 +171,7 @@ class CustomBot(commands.Bot):
         self.loop.create_task(self.register_aiohttp_session())
         super().run(self.token)
 
+    # Events
     async def on_ready(self) -> None:
         """
         on_ready event
@@ -186,13 +194,6 @@ class CustomBot(commands.Bot):
         :return: None
         """
         self.log_event("on_disconnect", "event")
-
-    async def register_aiohttp_session(self) -> None:
-        """
-        Register the bots ClientSession
-        :return: None
-        """
-        self.aiohttp_session = aiohttp.ClientSession()
 
 
 class CustomHelpCommand(commands.HelpCommand):
