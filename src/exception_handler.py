@@ -196,10 +196,12 @@ class ExceptionHandler(commands.Cog):
             )
 
         elif isinstance(err, commands.MissingAnyRole):
-            roles = ", ".join(x for x in err.missing_roles)
+            missing_roles = [ctx.guild.get_role(x) for x in err.missing_roles]
+            roles = [x.mention for x in missing_roles]
+
             emb = nextcord.Embed(
                 title="Missing any role!",
-                description=f"You are missing one of the following roles ({roles})",
+                description=f"You are missing one of the following roles {', '.join(roles)}",
                 color=self.error_color,
                 timestamp=datetime.datetime.now(),
             )
