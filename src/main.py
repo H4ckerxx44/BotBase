@@ -43,7 +43,7 @@ class CustomBot(commands.Bot):
         self.loaded_modules: set = set()
         self.unloaded_modules: set = set()
         self.errored_modules: set = set()
-        self.main_color = 0xFFD700
+        self.main_color = 0xFFFFFF
         self.database: Optional[MySQLConnection] = None
         self.cursor: Optional[CMySQLCursorBuffered] = None
         super().__init__(
