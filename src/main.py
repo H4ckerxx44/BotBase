@@ -256,7 +256,7 @@ class CustomHelpCommand(commands.HelpCommand):
                         "If a parameter is surrounded by [], it is an `optional` parameter.",
             color=client.main_color,
         )
-        emb.add_field(name=str(syntax), value=f"`{command.help}`", inline=False)
+        emb.add_field(name=str(syntax), value=f"`{command.description}`", inline=False)
         emb.add_field(
             name="Command stats",
             value=f"Successful = {times_worked}\n"
@@ -280,7 +280,7 @@ class CustomHelpCommand(commands.HelpCommand):
             syntax = f"{self.context.prefix}{group.qualified_name} {sub_command.name} {sub_command.signature}"
             emb.add_field(
                 name=f"{syntax}",
-                value=f"`{sub_command.help or 'No description defined.'}`",
+                value=f"`{sub_command.description or 'No description defined.'}`",
                 inline=False,
             )
 
