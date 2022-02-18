@@ -208,12 +208,18 @@ class CustomHelpCommand(commands.HelpCommand):
         :param mapping: Stuff
         :return: The message that got sent
         """
-        emb = nextcord.Embed(title="Help")
-        for cog, cmds in mapping.items():
-            filtered = await self.filter_commands(cmds, sort=True)
-            command_signatures = [self.get_command_signature(c) for c in filtered]
-            if command_signatures:
-                cog_name = getattr(cog, "qualified_name", "No Category")
+
+        emb = nextcord.Embed(
+            title=f"**Full command list.** For a detailed guide, check "
+                  f"{self.context.clean_prefix}help <name of command>",
+            color=client.main_color,
+        )
+
+        for cog in client.cogs:
+            cog = client.get_cog(cog)
+            cog_cmds = cog.get_commands()
+            cog_cmd_list = " ".join([f"`{cmd.name}`" for cmd in cog_cmds if not cmd.hidden])
+            if cog_cmd_list:
                 emb.add_field(
                     name=cog_name, value="\n".join(command_signatures), inline=False
                 )
