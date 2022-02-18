@@ -251,15 +251,15 @@ class CustomHelpCommand(commands.HelpCommand):
         emb = nextcord.Embed(
             title="Command help",
             description="If a parameter is surrounded by <>, it is a `required` parameter\n"
-            "If a parameter is surrounded by [], it is an `optional` parameter.",
+                        "If a parameter is surrounded by [], it is an `optional` parameter.",
             color=client.main_color,
         )
         emb.add_field(name=str(syntax), value=f"`{command.help}`", inline=False)
         emb.add_field(
             name="Command stats",
             value=f"Successful = {times_worked}\n"
-            f"Failed = {times_failed}\n"
-            f"Total  usages = {times_used}",
+                  f"Failed = {times_failed}\n"
+                  f"Total  usages = {times_used}",
             inline=False,
         )
 
