@@ -221,7 +221,9 @@ class CustomHelpCommand(commands.HelpCommand):
             cog_cmd_list = " ".join([f"`{cmd.name}`" for cmd in cog_cmds if not cmd.hidden])
             if cog_cmd_list:
                 emb.add_field(
-                    name=cog_name, value="\n".join(command_signatures), inline=False
+                    name=f"**{cog.qualified_name} Commands [{len(cog_cmds)}]:**",
+                    value=cog_cmd_list,
+                    inline=False,
                 )
 
         return await self.context.send(embed=emb)
