@@ -12,15 +12,15 @@ class FailingExtension(commands.Cog):
     This extension is supposed to fail
     """
 
-    def __init__(self, client: CustomBot):
-        self.client: CustomBot = client
+    def __init__(self, bot: CustomBot):
+        self.bot: CustomBot = bot
         self.abc: int = "Hello!"
 
 
-def setup(client):
+def setup(bot):
     """
-    Setup function to add the cog to the client
-    :param client: the client
+    Setup function to add the cog to the bot
+    :param bot: the bot
     :return: None
     """
-    client.add_cog(FailingExtension(client))
+    bot.add_cog(FailingExtension(bot))

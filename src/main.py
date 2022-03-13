@@ -212,11 +212,11 @@ class CustomHelpCommand(commands.HelpCommand):
         emb = nextcord.Embed(
             title=f"**Full command list.** For a detailed guide, check "
                   f"{self.context.clean_prefix}help <name of command>",
-            color=client.main_color,
+            color=bot.main_color,
         )
 
-        for cog in client.cogs:
-            cog = client.get_cog(cog)
+        for cog in bot.cogs:
+            cog = bot.get_cog(cog)
             cog_cmds = cog.get_commands()
             cog_cmd_list = " ".join([f"`{cmd.name}`" for cmd in cog_cmds if not cmd.hidden])
             if cog_cmd_list:
@@ -238,12 +238,12 @@ class CustomHelpCommand(commands.HelpCommand):
         sql = "SELECT COUNT(command_name) FROM bot_db.command_stats WHERE command_name=%s AND command_state=%s"
 
         val = (command.name, "SUCCESS")
-        client.cursor.execute(sql, val)
-        times_worked = client.cursor.fetchone()[0]
+        bot.cursor.execute(sql, val)
+        times_worked = bot.cursor.fetchone()[0]
 
         val = (command.name, "ERROR")
-        client.cursor.execute(sql, val)
-        times_failed = client.cursor.fetchone()[0]
+        bot.cursor.execute(sql, val)
+        times_failed = bot.cursor.fetchone()[0]
 
         times_used = times_failed + times_worked
 
@@ -254,7 +254,7 @@ class CustomHelpCommand(commands.HelpCommand):
             title="Command help",
             description="If a parameter is surrounded by <>, it is a `required` parameter\n"
                         "If a parameter is surrounded by [], it is an `optional` parameter.",
-            color=client.main_color,
+            color=bot.main_color,
         )
         emb.add_field(name=str(syntax), value=f"`{command.description}`", inline=False)
         emb.add_field(
@@ -274,7 +274,7 @@ class CustomHelpCommand(commands.HelpCommand):
         :param group: The group given
         :return: The message that got sent
         """
-        emb = nextcord.Embed(title="Command group help", color=client.main_color)
+        emb = nextcord.Embed(title="Command group help", color=bot.main_color)
 
         for sub_command in group.walk_commands():
             syntax = f"{self.context.prefix}{group.qualified_name} {sub_command.name} {sub_command.signature}"
@@ -295,7 +295,7 @@ class CustomHelpCommand(commands.HelpCommand):
         """
         emb = nextcord.Embed(
             title="**Full command list.** For a detailed guide, check !!help <name of command>",
-            color=client.main_color,
+            color=bot.main_color,
         )
 
         cog_cmds = cog.get_commands()
@@ -312,7 +312,7 @@ class CustomHelpCommand(commands.HelpCommand):
 
 
 if __name__ == "__main__":
-    client = CustomBot()
+    bot = CustomBot()
 
-    client.help_command = CustomHelpCommand()
-    client.run_bot()
+    bot.help_command = CustomHelpCommand()
+    bot.run_bot()

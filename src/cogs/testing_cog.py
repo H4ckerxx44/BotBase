@@ -13,8 +13,8 @@ class Test(commands.Cog):
     This is the testing cog where all commands are found for testing
     """
 
-    def __init__(self, client: CustomBot):
-        self.client: CustomBot = client
+    def __init__(self, bot: CustomBot):
+        self.bot: CustomBot = bot
         self.error_color = nextcord.Color.red()
 
     @commands.is_owner()
@@ -30,19 +30,19 @@ class Test(commands.Cog):
 
         for ext in extensions:
             try:
-                self.client.load_extension(f"cogs.{ext}")
-                self.client.unloaded_modules.remove(ext)
-                self.client.loaded_modules.add(ext)
+                self.bot.load_extension(f"cogs.{ext}")
+                self.bot.unloaded_modules.remove(ext)
+                self.bot.loaded_modules.add(ext)
                 success.append(f"{ext}")
             except commands.ExtensionAlreadyLoaded:
                 try:
-                    self.client.unloaded_modules.remove(ext)
-                    self.client.errored_modules.remove(ext)
+                    self.bot.unloaded_modules.remove(ext)
+                    self.bot.errored_modules.remove(ext)
                 except KeyError:
                     pass
                 raise
             except (commands.ExtensionFailed, commands.NoEntryPointError):
-                self.client.errored_modules.add(ext)
+                self.bot.errored_modules.add(ext)
                 raise
 
         loaded_exts = ", ".join(f"`{x}`" for x in success)
@@ -61,9 +61,9 @@ class Test(commands.Cog):
 
         for ext in extensions:
             try:
-                self.client.unload_extension(f"cogs.{ext}")
-                self.client.loaded_modules.remove(ext)
-                self.client.unloaded_modules.add(ext)
+                self.bot.unload_extension(f"cogs.{ext}")
+                self.bot.loaded_modules.remove(ext)
+                self.bot.unloaded_modules.add(ext)
                 success.append(f"{ext}")
             except:
                 raise
@@ -85,13 +85,13 @@ class Test(commands.Cog):
         for ext in extensions:
             try:
                 try:
-                    self.client.errored_modules.remove(ext)
+                    self.bot.errored_modules.remove(ext)
                 except KeyError:
                     continue
-                self.client.reload_extension(f"cogs.{ext}")
+                self.bot.reload_extension(f"cogs.{ext}")
                 success.append(f"{ext}")
             except (commands.ExtensionFailed, commands.NoEntryPointError):
-                self.client.errored_modules.add(ext)
+                self.bot.errored_modules.add(ext)
                 raise
 
         reloaded_exts = ", ".join(f"`{x}`" for x in success)
@@ -362,7 +362,7 @@ class Test(commands.Cog):
         :param ctx: The context
         :return: None
         """
-        self.client.load_extension("jishaku")
+        self.bot.load_extension("jishaku")
 
     @commands.command()
     async def extension_not_loaded(self, ctx: commands.Context) -> None:
@@ -371,8 +371,8 @@ class Test(commands.Cog):
         :param ctx: The context
         :return: None
         """
-        self.client.unload_extension("jishaku")
-        self.client.unload_extension("jishaku")
+        self.bot.unload_extension("jishaku")
+        self.bot.unload_extension("jishaku")
 
     @commands.command()
     async def extension_failed(self, ctx: commands.Context) -> None:
@@ -381,7 +381,7 @@ class Test(commands.Cog):
         :param ctx: The context
         :return: None
         """
-        self.client.load_extension("failing_extension")
+        self.bot.load_extension("failing_extension")
 
     @commands.command()
     async def extension_not_found(self, ctx: commands.Context) -> None:
@@ -390,7 +390,7 @@ class Test(commands.Cog):
         :param ctx: The context
         :return: None
         """
-        self.client.load_extension("cogs.not_to_be_found")
+        self.bot.load_extension("cogs.not_to_be_found")
 
     @commands.command()
     async def no_entry_point_error(self, ctx: commands.Context) -> None:
@@ -399,7 +399,7 @@ class Test(commands.Cog):
         :param ctx: The context
         :return: None
         """
-        self.client.load_extension("no_entry_point_extension")
+        self.bot.load_extension("no_entry_point_extension")
 
     @commands.command()
     async def channel(
@@ -492,10 +492,10 @@ class Test(commands.Cog):
         return await ctx.send(f"I am a sub command with a parameter {param1}")
 
 
-def setup(client: CustomBot) -> None:
+def setup(bot: CustomBot) -> None:
     """
-    Setup function to add the cog to the client
-    :param client: the client
+    Setup function to add the cog to the bot
+    :param bot: the bot
     :return: None
     """
-    client.add_cog(Test(client))
+    bot.add_cog(Test(bot))

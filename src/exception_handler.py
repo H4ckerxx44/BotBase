@@ -18,8 +18,8 @@ class ExceptionHandler(commands.Cog):
     This is the exception handler cog
     """
 
-    def __init__(self, client: CustomBot):
-        self.client: CustomBot = client
+    def __init__(self, bot: CustomBot):
+        self.bot: CustomBot = bot
         self.error_color = nextcord.Color.red()
 
     @commands.Cog.listener()
@@ -29,7 +29,7 @@ class ExceptionHandler(commands.Cog):
         :param ctx: The context
         :return: None
         """
-        self.client.log_event("on_command", "event")
+        self.bot.log_event("on_command", "event")
 
     @commands.Cog.listener()
     async def on_command_completion(self, ctx: commands.Context) -> None:
@@ -38,8 +38,8 @@ class ExceptionHandler(commands.Cog):
         :param ctx: The context
         :return: None
         """
-        self.client.log_command_stats(str(ctx.command.qualified_name), "SUCCESS")
-        self.client.log_event("on_command_completion", "event")
+        self.bot.log_command_stats(str(ctx.command.qualified_name), "SUCCESS")
+        self.bot.log_event("on_command_completion", "event")
 
     @commands.Cog.listener()
     async def on_command_error(
@@ -306,11 +306,11 @@ class ExceptionHandler(commands.Cog):
 
         else:
             emb = self.gen_default_embed(err)
-            dennis = self.client.get_user(self.client.owner_id)
+            dennis = self.bot.get_user(self.bot.owner_id)
             await dennis.send(embed=self.gen_dennis_embed(err))
 
-            self.client.log_event("on_command_error", "event")
-            self.client.log_command_stats(str(ctx.command.qualified_name), "ERROR")
+            self.bot.log_event("on_command_error", "event")
+            self.bot.log_command_stats(str(ctx.command.qualified_name), "ERROR")
 
         return await ctx.send(embed=emb)
 
@@ -349,10 +349,10 @@ class ExceptionHandler(commands.Cog):
         return dennis_error_embed
 
 
-def setup(client) -> None:
+def setup(bot) -> None:
     """
-    Setup function to add the cog to the client
-    :param client: the client
+    Setup function to add the cog to the bot
+    :param bot: the bot
     :return: None
     """
-    client.add_cog(ExceptionHandler(client))
+    bot.add_cog(ExceptionHandler(bot))

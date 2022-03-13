@@ -12,14 +12,14 @@ class EmptyCog2(commands.Cog):
     This is an Empty cog to just have more loaded for testing of internal things
     """
 
-    def __init__(self, client: CustomBot):
-        self.client: CustomBot = client
+    def __init__(self, bot: CustomBot):
+        self.bot: CustomBot = bot
 
 
-def setup(client) -> None:
+def setup(bot) -> None:
     """
-    Setup function to add the cog to the client
-    :param client: the client
+    Setup function to add the cog to the bot
+    :param bot: the bot
     :return: None
     """
-    client.add_cog(EmptyCog2(client))
+    bot.add_cog(EmptyCog2(bot))

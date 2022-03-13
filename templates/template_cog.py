@@ -13,8 +13,8 @@ class TemplateCog(commands.Cog):
     This is a template cog
     """
 
-    def __init__(self, client: CustomBot):
-        self.client: CustomBot = client
+    def __init__(self, bot: CustomBot):
+        self.bot: CustomBot = bot
 
     @commands.command()
     async def template_command(self, ctx: commands.Context) -> nextcord.Message:
@@ -57,10 +57,10 @@ class TemplateCog(commands.Cog):
         return await ctx.send(embed=emb)
 
 
-def setup(client):
+def setup(bot):
     """
-    Setup function to add the cog to the client
-    :param client: the client
+    Setup function to add the cog to the bot
+    :param bot: the bot
     :return: None
     """
-    client.add_cog(TemplateCog(client))
+    bot.add_cog(TemplateCog(bot))
