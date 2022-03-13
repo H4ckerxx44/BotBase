@@ -472,7 +472,7 @@ class Test(commands.Cog):
         if not ctx.invoked_subcommand:
             return await ctx.send("I am a group!")
 
-    @group_test.command(name="a")
+    @group_test.command(name="a", description="Description")
     async def group_test_a(self, ctx: commands.Context) -> nextcord.Message:
         """
         Subcommand a from group a
@@ -481,7 +481,7 @@ class Test(commands.Cog):
         """
         return await ctx.send("I am a sub command of group `group_test`")
 
-    @group_test.command(name="b")
+    @group_test.command(name="b", brief="Brief")
     async def group_test_b(self, ctx: commands.Context, param1) -> nextcord.Message:
         """
         Subcommand b from group a with a parameter
