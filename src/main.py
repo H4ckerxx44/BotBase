@@ -186,6 +186,8 @@ class CustomBot(commands.Bot):
         on_connect event
         :return: None
         """
+        self.add_startup_application_commands()
+        await self.rollout_application_commands()
         self.log_event("on_connect", "event")
 
     async def on_disconnect(self) -> None:
